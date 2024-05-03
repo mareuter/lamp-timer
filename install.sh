@@ -5,13 +5,14 @@
 # SPDX-License-Identifier: MIT
 
 function install-adafruit {
-  mkdir lamp-timer
-  cd lamp-timer || return
-  python3 -m venv .env
+  python -m venv .env
   # shellcheck disable=SC1091
   source .env/bin/activate
-  pip3 install Adafruit-Blinka
-  pip3 install adafruit-circuitpython-st7735r
+  pip install requests
+  pip install Adafruit-Blinka
+  pip install adafruit-circuitpython-st7735r
+  pip install adafruit-circuitpython-bitmap-font
+  pip install adafruit-circuitpython-display-text
 }
 
 function reboot {
