@@ -5,26 +5,39 @@
 import asyncio
 from datetime import datetime, time, timedelta
 import pathlib
-import tomllib
 import random
+import tomllib
 from zoneinfo import ZoneInfo
 
 import board
+import digitalio
 import displayio
-from displayio import FourWire
+
+try:
+    from fourwire import FourWire
+except ImportError:
+    from displayio import FourWire
 import requests
 
 from timer_display import TimerDisplay
 
 # Setup display
 displayio.release_displays()
-
 spi = board.SPI()
-tft_cs = board.D5
-tft_dc = board.D6
-
-display_bus = FourWire(spi, command=tft_dc, chip_select=tft_cs, reset=board.D9)
+display_bus = FourWire(
+    spi, command=board.D25, chip_select=board.CE0, reset=None, baudrate=64000000
+)
 display = TimerDisplay(display_bus)
+
+# Setup display buttons
+display_on_btn = digitalio.DigitalInOut(board.D23)
+display_on_btn.switch_to_input()
+display_off_btn = digitalio.DigitalInOut(board.D24)
+display_off_btn.switch_to_input()
+
+# Setup power relay pin
+power_relay_pin = digitalio.DigitalInOut(board.D5)
+power_relay_pin.switch_to_output()
 
 settings_file = pathlib.Path("~/.settings.toml").expanduser()
 with settings_file.open("rb") as mfile:
@@ -40,6 +53,7 @@ LOCATION_LONGITUDE = settings["LOCATION_LONGITUDE"]
 LOCATION_LATITUDE = settings["LOCATION_LATITUDE"]
 LOCATION_HEIGHT = settings["LOCATION_HEIGHT"]
 HELIOS_WEBSERVICE = settings["HELIOS_WEBSERVICE"]
+DISPLAY_TIMEOUT = 5 * 60
 
 
 class TimerCondition:
@@ -68,6 +82,26 @@ def get_off_variation_from_range() -> timedelta:
     return timedelta(seconds=value)
 
 
+async def dim_screen(evt: asyncio.Event) -> None:
+    print("Starting timer")
+    while True:
+        interrupted = False
+        await evt.wait()
+        print("Starting display timeout")
+        timeout = DISPLAY_TIMEOUT
+        while timeout > 0:
+            if not evt.is_set():
+                interrupted = True
+                print("Interrupt display timeout")
+                break
+            await asyncio.sleep(1)
+            timeout -= 1
+        if not interrupted:
+            print("Turning off display")
+            display.off()
+            evt.clear()
+
+
 async def time_setter(tc):
     while True:
         current_time = get_current_time()
@@ -94,6 +128,7 @@ async def time_setter(tc):
         )
         tc.initialized = True
 
+        display.set_date_banner(current_date)
         display.set_sunrise_sunset(sunrise, sunset)
         display.set_lamp_on_off(tc.lamp_on_time, tc.lamp_off_time)
 
@@ -122,9 +157,36 @@ async def lamp_control(tc):
         await asyncio.sleep(current_delta)
 
 
+async def monitor_buttons(evt: asyncio.Event) -> None:
+    evt.set()
+    while True:
+        if display_off_btn.value:
+            print("Turn off display")
+            display.unmount()
+            display.off()
+            evt.clear()
+        if display_on_btn.value:
+            print("Turn on display")
+            if display.brightness != 1.0:
+                display.on()
+            display.mount()
+            evt.set()
+        await asyncio.sleep(0.5)
+
+
 async def main():
     tc = TimerCondition()
-    await asyncio.gather(time_setter(tc), lamp_control(tc))
+    display_event = asyncio.Event()
+    await asyncio.gather(
+        time_setter(tc),
+        lamp_control(tc),
+        monitor_buttons(display_event),
+        dim_screen(display_event),
+    )
 
 
-asyncio.run(main())
+if __name__ == "__main__":
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        pass

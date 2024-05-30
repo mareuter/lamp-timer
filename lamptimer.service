@@ -1,0 +1,16 @@
+# SPDX-FileCopyrightText: 2024 Michael Reuter
+#
+# SPDX-License-Identifier: MIT
+
+[Unit]
+Description=Lamp Timer
+After=systemd-user-sessions.service
+
+[Service]
+Type=simple
+ExecStart=/home/lamptimer/lamp_timer.sh
+KillMode=control-group
+Restart=on-failure
+TimeoutSec=infinity
+User=lamptimer
+Group=lamptimer
