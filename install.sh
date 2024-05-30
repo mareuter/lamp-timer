@@ -4,14 +4,19 @@
 #
 # SPDX-License-Identifier: MIT
 
+function fixup-settings {
+  mv settings.toml .settings.toml
+  chmod 600 .settings.toml
+}
+
 function install-packages {
   sudo apt install python3-dev
 }
 
 function install-adafruit {
-  python -m venv .env
+  python -m venv .venv
   # shellcheck disable=SC1091
-  source .env/bin/activate
+  source .venv/bin/activate
   pip install requests
   pip install Adafruit-Blinka
   pip install adafruit-blinka-displayio
@@ -21,7 +26,7 @@ function install-adafruit {
 }
 
 function install-service {
-  sudo mv lamptimer.service /lib/systemd/system
+  sudo mv lamptimer.service /lib/systemd/user
   sudo systemctl daemon-reload
   sudo systemctl enable lamptimer.service
 }
@@ -33,6 +38,8 @@ function reboot {
 ######################
 # Installation Process
 ######################
+rm lamptimer.tar.gz
+fixup-settings
 install-packages
 install-adafruit
 install-service

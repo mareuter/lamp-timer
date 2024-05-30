@@ -1,0 +1,11 @@
+fonts/SpartanMB-Regular-12.bdf
+images/Off_Circle.bmp
+images/On_Circle.bmp
+images/Sunrise.bmp
+images/Sunset.bmp
+install.sh
+lamp_timer.py
+lamptimer.service
+lamp_timer.sh
+settings.toml
+timer_display.py

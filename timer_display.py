@@ -26,6 +26,7 @@ DATE_BANNER_FORMAT = "%B %-d, %Y"
 USNO_TIME_FORMAT = "%H:%M"
 TIME_FORMAT = "%H:%M:%S"
 DISPLAY_DELAY = 0.05
+FONT_Y_ANCHOR = 0.6825
 
 
 class TimerDisplay:
@@ -65,50 +66,50 @@ class TimerDisplay:
 
     def _date_banner(self) -> None:
         date_label = bitmap_label.Label(DISPLAY_FONT, color=TEXT_COLOR)
-        date_label.anchor_point = (0, 0.5)
-        date_label.anchored_position = (44, 14)
+        date_label.anchor_point = (0.5, 0.5)
+        date_label.anchored_position = (120, 22)
         self.main_group.append(date_label)
 
     def _sunrise_sunset(self) -> None:
         sunrise_img = displayio.TileGrid(
-            SUNRISE_BMP, pixel_shader=SUNRISE_BMP.pixel_shader, x=2, y=47
+            SUNRISE_BMP, pixel_shader=SUNRISE_BMP.pixel_shader, x=1, y=49
         )
         self.main_group.append(sunrise_img)
 
         sunrise_time_label = bitmap_label.Label(DISPLAY_FONT, color=LIGHT_COLOR)
-        sunrise_time_label.anchor_point = (0, 0.5)
-        sunrise_time_label.anchored_position = (46, 67)
+        sunrise_time_label.anchor_point = (0, FONT_Y_ANCHOR)
+        sunrise_time_label.anchored_position = (49, 67)
         self.main_group.append(sunrise_time_label)
 
         sunset_img = displayio.TileGrid(
-            SUNSET_BMP, pixel_shader=SUNSET_BMP.pixel_shader, x=122, y=47
+            SUNSET_BMP, pixel_shader=SUNSET_BMP.pixel_shader, x=121, y=49
         )
         self.main_group.append(sunset_img)
 
         sunset_time_label = bitmap_label.Label(DISPLAY_FONT, color=DARK_COLOR)
-        sunset_time_label.anchor_point = (0, 0.5)
-        sunset_time_label.anchored_position = (165, 67)
+        sunset_time_label.anchor_point = (0, FONT_Y_ANCHOR)
+        sunset_time_label.anchored_position = (168, 67)
         self.main_group.append(sunset_time_label)
 
     def _lamp_on_off(self) -> None:
         on_circle_img = displayio.TileGrid(
-            ON_CIRCLE_BMP, pixel_shader=ON_CIRCLE_BMP.pixel_shader, x=2, y=92
+            ON_CIRCLE_BMP, pixel_shader=ON_CIRCLE_BMP.pixel_shader, x=1, y=94
         )
         self.main_group.append(on_circle_img)
 
         on_time_label = bitmap_label.Label(DISPLAY_FONT, color=LIGHT_COLOR)
-        on_time_label.anchor_point = (0, 0.5)
-        on_time_label.anchored_position = (46, 112)
+        on_time_label.anchor_point = (0, FONT_Y_ANCHOR)
+        on_time_label.anchored_position = (41, 112)
         self.main_group.append(on_time_label)
 
         off_circle_img = displayio.TileGrid(
-            OFF_CIRCLE_BMP, pixel_shader=OFF_CIRCLE_BMP.pixel_shader, x=122, y=92
+            OFF_CIRCLE_BMP, pixel_shader=OFF_CIRCLE_BMP.pixel_shader, x=121, y=94
         )
         self.main_group.append(off_circle_img)
 
         off_time_label = bitmap_label.Label(DISPLAY_FONT, color=DARK_COLOR)
-        off_time_label.anchor_point = (0, 0.5)
-        off_time_label.anchored_position = (165, 112)
+        off_time_label.anchor_point = (0, FONT_Y_ANCHOR)
+        off_time_label.anchored_position = (160, 112)
         self.main_group.append(off_time_label)
 
     def _usno_format(self, time: datetime) -> str:

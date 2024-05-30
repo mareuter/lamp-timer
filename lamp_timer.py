@@ -83,7 +83,6 @@ def get_off_variation_from_range() -> timedelta:
 
 
 async def dim_screen(evt: asyncio.Event) -> None:
-    print("Starting timer")
     while True:
         interrupted = False
         await evt.wait()
@@ -149,9 +148,13 @@ async def lamp_control(tc):
         await asyncio.sleep(current_delta)
         print(f"Turning on lamp at {get_current_time()}")
         current_delta = get_seconds_from_now(tc.lamp_off_time)
+        # GPIO on
+        power_relay_pin.value = True
         print(f"Lamp off time in {current_delta} seconds")
         await asyncio.sleep(current_delta)
         print(f"Turning off lamp at {get_current_time()}")
+        # GPIO off
+        power_relay_pin.value = False
         current_delta = get_seconds_from_now(tc.next_check_time) + 10
         print(f"Next lamp control check in {current_delta} seconds")
         await asyncio.sleep(current_delta)
@@ -159,19 +162,23 @@ async def lamp_control(tc):
 
 async def monitor_buttons(evt: asyncio.Event) -> None:
     evt.set()
+    monitor_on = True
     while True:
-        if display_off_btn.value:
-            print("Turn off display")
-            display.unmount()
-            display.off()
-            evt.clear()
-        if display_on_btn.value:
-            print("Turn on display")
-            if display.brightness != 1.0:
-                display.on()
-            display.mount()
-            evt.set()
-        await asyncio.sleep(0.5)
+        if not display_on_btn.value:
+            if monitor_on:
+                print("Turn off display")
+                display.unmount()
+                display.off()
+                evt.clear()
+                monitor_on = False
+            else:
+                print("Turn on display")
+                if display.brightness != 1.0:
+                    display.on()
+                display.mount()
+                evt.set()
+                monitor_on = True
+        await asyncio.sleep(1.0)
 
 
 async def main():
