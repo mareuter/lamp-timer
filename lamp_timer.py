@@ -30,10 +30,8 @@ display_bus = FourWire(
 display = TimerDisplay(display_bus)
 
 # Setup display buttons
-display_on_btn = digitalio.DigitalInOut(board.D23)
-display_on_btn.switch_to_input()
-display_off_btn = digitalio.DigitalInOut(board.D24)
-display_off_btn.switch_to_input()
+display_on_off_btn = digitalio.DigitalInOut(board.D23)
+display_on_off_btn.switch_to_input()
 
 # Setup power relay pin
 power_relay_pin = digitalio.DigitalInOut(board.D5)
@@ -164,7 +162,7 @@ async def monitor_buttons(evt: asyncio.Event) -> None:
     evt.set()
     monitor_on = True
     while True:
-        if not display_on_btn.value:
+        if not display_on_off_btn.value:
             if monitor_on:
                 print("Turn off display")
                 display.unmount()
@@ -179,6 +177,8 @@ async def monitor_buttons(evt: asyncio.Event) -> None:
                 evt.set()
                 monitor_on = True
         await asyncio.sleep(1.0)
+        if not evt.is_set():
+            monitor_on = False
 
 
 async def main():
@@ -196,4 +196,6 @@ if __name__ == "__main__":
     try:
         asyncio.run(main())
     except KeyboardInterrupt:
-        pass
+        display.off()
+        display.unmount()
+        power_relay_pin.value = False

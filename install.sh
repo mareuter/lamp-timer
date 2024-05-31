@@ -26,7 +26,7 @@ function install-adafruit {
 }
 
 function install-service {
-  sudo mv lamptimer.service /lib/systemd/user
+  sudo mv lamptimer.service /lib/systemd/system
   sudo systemctl daemon-reload
   sudo systemctl enable lamptimer.service
 }

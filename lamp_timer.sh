@@ -4,5 +4,6 @@
 #
 # SPDX-License-Identifier: MIT
 
-source /home/lamptimer/.venv/bin/activate
-python /home/lamptimer/lamp_timer.py
+cd /home/lamptimer
+source .venv/bin/activate
+python lamp_timer.py

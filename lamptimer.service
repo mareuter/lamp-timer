@@ -4,7 +4,7 @@
 
 [Unit]
 Description=Lamp Timer
-After=systemd-user-sessions.service
+After=multi-user.target
 
 [Service]
 Type=simple
@@ -14,3 +14,6 @@ Restart=on-failure
 TimeoutSec=infinity
 User=lamptimer
 Group=lamptimer
+
+[Install]
+WantedBy=multi-user.target
