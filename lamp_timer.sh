@@ -6,4 +6,4 @@
 
 cd /home/lamptimer
 source .venv/bin/activate
-python lamp_timer.py
+python -u lamp_timer.py
