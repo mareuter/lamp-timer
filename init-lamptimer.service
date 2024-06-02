@@ -1,0 +1,19 @@
+# SPDX-FileCopyrightText: 2024 Michael Reuter
+#
+# SPDX-License-Identifier: MIT
+
+[Unit]
+Description=Intialize Lamp Timer
+After=multi-user.target
+
+[Service]
+Type=oneshot
+ExecStart=/home/lamptimer/init_conditions.sh
+KillMode=control-group
+Restart=on-failure
+TimeoutSec=infinity
+User=lamptimer
+Group=lamptimer
+
+[Install]
+WantedBy=multi-user.target

@@ -4,8 +4,12 @@ images/On_Circle.bmp
 images/Sunrise.bmp
 images/Sunset.bmp
 install.sh
-lamp_timer.py
-lamptimer.service
-lamp_timer.sh
+control_lamp.py
+init_conditions.sh
+init-lamptimer.service
+lamp_on.sh
+lamp_off.sh
 settings.toml
+setup_conditions.py
+setup_conditions.sh
 timer_display.py
