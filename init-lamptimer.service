@@ -3,12 +3,12 @@
 # SPDX-License-Identifier: MIT
 
 [Unit]
-Description=Intialize Lamp Timer
+Description=Initialize Lamp Timer
 After=multi-user.target
 
 [Service]
 Type=oneshot
-ExecStart=/home/lamptimer/init_conditions.sh
+ExecStart=/home/lamptimer/setup_conditions.sh
 KillMode=control-group
 Restart=on-failure
 TimeoutSec=infinity

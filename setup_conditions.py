@@ -4,6 +4,7 @@
 
 from datetime import datetime, time, timedelta
 import json
+import os
 import pathlib
 import random
 import tomllib
@@ -17,15 +18,17 @@ with settings_file.open("rb") as mfile:
     settings = tomllib.load(mfile)
 
 TIME_ZONE = ZoneInfo(settings["LOCATION_TIMEZONE"])
-CHECK_TIME = time(0, 10, 0, tzinfo=TIME_ZONE)
-ONE_DAY = timedelta(days=1)
-FIVE_MINUTES = timedelta(seconds=300)
-TEN_MINUTES = timedelta(seconds=600)
 LAMP_OFF_TIME = time.fromisoformat(settings["LAMP_OFF_TIME"])
 LOCATION_LONGITUDE = settings["LOCATION_LONGITUDE"]
 LOCATION_LATITUDE = settings["LOCATION_LATITUDE"]
 LOCATION_HEIGHT = settings["LOCATION_HEIGHT"]
 HELIOS_WEBSERVICE = settings["HELIOS_WEBSERVICE"]
+
+CHECK_TIME = time(0, 10, 0, tzinfo=TIME_ZONE)
+ONE_DAY = timedelta(days=1)
+FIVE_MINUTES = timedelta(seconds=300)
+TEN_MINUTES = timedelta(seconds=600)
+CRONTAB_FORMAT = "%M %H %d %m"
 
 
 def get_current_time() -> datetime:
@@ -85,6 +88,15 @@ def main():
     next_check_time = datetime.combine(current_date, CHECK_TIME) + ONE_DAY
     current_delta = get_seconds_from_now(next_check_time)
     print(f"Next check time in {current_delta} seconds")
+
+    check_time_script = "/home/lamptimer/setup_conditions.sh"
+    cron_output = [
+        f"{next_check_time.strftime(CRONTAB_FORMAT)} * {check_time_script}",
+        f"{lamp_on_time.strftime(CRONTAB_FORMAT)} * /home/lamptimer/lamp_on.sh",
+        f"{lamp_off_time.strftime(CRONTAB_FORMAT)} * /home/lamptimer/lamp_off.sh",
+    ]
+    crontab_file = pathlib.Path("crontab.in")
+    crontab_file.write_text(os.linesep.join(cron_output))
 
 
 if __name__ == "__main__":

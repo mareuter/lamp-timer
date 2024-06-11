@@ -5,7 +5,6 @@ images/Sunrise.bmp
 images/Sunset.bmp
 install.sh
 control_lamp.py
-init_conditions.sh
 init-lamptimer.service
 lamp_on.sh
 lamp_off.sh
