@@ -94,9 +94,14 @@ def main():
         f"{next_check_time.strftime(CRONTAB_FORMAT)} * {check_time_script}",
         f"{lamp_on_time.strftime(CRONTAB_FORMAT)} * /home/lamptimer/lamp_on.sh",
         f"{lamp_off_time.strftime(CRONTAB_FORMAT)} * /home/lamptimer/lamp_off.sh",
+        "",
     ]
     crontab_file = pathlib.Path("crontab.in")
     crontab_file.write_text(os.linesep.join(cron_output))
+
+    if get_current_time() > lamp_on_time:
+        lamp_on_file = pathlib.Path("lamp_on")
+        lamp_on_file.touch()
 
 
 if __name__ == "__main__":

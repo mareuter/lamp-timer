@@ -7,5 +7,9 @@
 cd /home/lamptimer
 source .venv/bin/activate
 python -u setup_conditions.py
-# crontab -e < cat crontab.in
-# rm crontab.in
+cat crontab.in | crontab -
+rm crontab.in
+if [ -f "lamp_on" ]; then
+  ./lamp_on.sh
+  rm lamp_on
+fi
