@@ -23,6 +23,9 @@ function install-adafruit {
   pip install adafruit-circuitpython-bitmap-font
   pip install adafruit-circuitpython-display-text
   pip install adafruit-circuitpython-st7789
+  # Debian bookworm requires next two lines
+  pip uninstall -y rpi-gpio
+  pip install rpi-lgpio
 }
 
 function install-service {
