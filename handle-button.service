@@ -1,0 +1,16 @@
+# SPDX-FileCopyrightText: 2024 Michael Reuter
+#
+# SPDX-License-Identifier: MIT
+
+[Unit]
+Description=Handle Button to Toggle Display
+After=run-display.Service
+
+[Service]
+Type=simple
+ExecStart=/home/lamptimer/handle_button.sh
+KillMode=control-group
+Restart=on-failure
+TimeoutSec=infinity
+User=lamptimer
+Group=lamptimer

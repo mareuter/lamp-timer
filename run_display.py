@@ -66,28 +66,11 @@ def signal_handler(sig, frame) -> None:
     sys.exit(0)
 
 
-def toggle_display(sig, frame) -> None:
-    if display.is_on:
-        display.unmount()
-        display.off()
-    else:
-        display.on()
-        display.mount()
-    signal.pause()
-
-
-def trigger_read(sig, frame) -> None:
-    print("OK!")
-    signal.pause()
-
-
 def main(opts: argparse.Namespace) -> None:
     read_and_display()
 
     signal.signal(signal.SIGINT, signal_handler)
     signal.signal(signal.SIGTERM, signal_handler)
-    signal.signal(signal.SIGUSR1, trigger_read)
-    signal.signal(signal.SIGUSR2, toggle_display)
     signal.pause()
 
 

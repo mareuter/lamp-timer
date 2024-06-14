@@ -23,15 +23,21 @@ function install-adafruit {
   pip install adafruit-circuitpython-bitmap-font
   pip install adafruit-circuitpython-display-text
   pip install adafruit-circuitpython-st7789
-  # Debian bookworm requires next two lines
-  pip uninstall -y rpi-gpio
+}
+
+function install-gpio {
+  python -m venv .venv2
+  # shellcheck disable=SC1091
+  source .venv2/bin/activate
   pip install rpi-lgpio
 }
 
 function install-service {
-  sudo mv init-lamptimer.service /lib/systemd/system
+  sudo mv init-lamptimer.service run-display.service handle-button.service /lib/systemd/system
   sudo systemctl daemon-reload
   sudo systemctl enable init-lamptimer.service
+  sudo systemctl enable run-display.service
+  sudo systemctl enable handle-button.service
 }
 
 
@@ -42,5 +48,6 @@ rm lamptimer.tar.gz
 fixup-settings
 install-packages
 install-adafruit
+install-gpio
 install-service
 sudo reboot

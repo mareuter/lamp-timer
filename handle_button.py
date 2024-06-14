@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: MIT
 
 import argparse
+import pathlib
 import signal
 import subprocess
 import sys
@@ -12,17 +13,28 @@ import RPi.GPIO as GPIO
 
 DEBOUNCE_TIME_MS = 200
 DISPLAY_BUTTON = 23
+SERVICE_CMD = ["/usr/bin/sudo", "/usr/bin/systemctl", "", "run-display.service"]
+
+semaphore = pathlib.Path(".display_off")
 
 
 def signal_handler(sig, frame) -> None:
     print("Shutting down")
     GPIO.cleanup(DISPLAY_BUTTON)
+    if semaphore.exists():
+        semaphore.unlink()
     sys.exit(0)
 
 
 def toggle_display(channel) -> None:
-    cmd = ["/usr/bin/pkill", "-SIGUSR2", "-f", "python run_display.py"]
-    subprocess.run(cmd)
+    if semaphore.exists():
+        semaphore.unlink()
+        SERVICE_CMD[2] = "start"
+        subprocess.run(SERVICE_CMD)
+    else:
+        SERVICE_CMD[2] = "stop"
+        subprocess.run(SERVICE_CMD)
+        semaphore.touch()
 
 
 def main(opts: argparse.Namespace) -> None:
