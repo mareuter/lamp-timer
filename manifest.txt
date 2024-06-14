@@ -5,9 +5,15 @@ images/Sunrise.bmp
 images/Sunset.bmp
 install.sh
 control_lamp.py
+display_control.py
+display_control.sh
+display-control.service
 init-lamptimer.service
 lamp_on.sh
 lamp_off.sh
+run_display.py
+run_display.sh
+run-display.service
 settings.toml
 setup_conditions.py
 setup_conditions.sh

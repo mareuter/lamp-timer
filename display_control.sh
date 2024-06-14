@@ -5,5 +5,5 @@
 # SPDX-License-Identifier: MIT
 
 cd /home/lamptimer
-source .venv/bin/activate
+source .venv2/bin/activate
 python -u display_control.py

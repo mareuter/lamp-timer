@@ -33,11 +33,11 @@ function install-gpio {
 }
 
 function install-service {
-  sudo mv init-lamptimer.service run-display.service handle-button.service /lib/systemd/system
+  sudo mv init-lamptimer.service run-display.service display-control.service /lib/systemd/system
   sudo systemctl daemon-reload
   sudo systemctl enable init-lamptimer.service
   sudo systemctl enable run-display.service
-  sudo systemctl enable handle-button.service
+  sudo systemctl enable display-control.service
 }
 
 
