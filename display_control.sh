@@ -6,4 +6,4 @@
 
 cd /home/lamptimer
 source .venv/bin/activate
-python -u handle_button.py
+python -u display_control.py
