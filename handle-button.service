@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: MIT
 
 [Unit]
-Description=Handle Button to Toggle Display
+Description=Handle Display Control
 After=run-display.Service
 
 [Service]
@@ -14,3 +14,6 @@ Restart=on-failure
 TimeoutSec=infinity
 User=lamptimer
 Group=lamptimer
+
+[Install]
+WantedBy=run-display.service
