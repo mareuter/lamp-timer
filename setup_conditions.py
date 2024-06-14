@@ -99,7 +99,7 @@ def main():
     crontab_file = pathlib.Path("crontab.in")
     crontab_file.write_text(os.linesep.join(cron_output))
 
-    if get_current_time() > lamp_on_time:
+    if lamp_off_time > get_current_time() > lamp_on_time:
         lamp_on_file = pathlib.Path("lamp_on")
         lamp_on_file.touch()
 
