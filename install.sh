@@ -40,14 +40,25 @@ function install-service {
   sudo systemctl enable display-control.service
 }
 
+function update_os {
+	if [ ! -f ".upgrade.tmp" ]; then
+		sudo apt-get update
+		sudo apt upgrade -y
+		touch ".upgrade.tmp"
+		sudo reboot
+	fi
+}
+
 
 ######################
 # Installation Process
 ######################
 rm lamptimer.tar.gz
 fixup-settings
+update_os
 install-packages
 install-adafruit
 install-gpio
 install-service
+rm ".upgrade.tmp"
 sudo reboot
