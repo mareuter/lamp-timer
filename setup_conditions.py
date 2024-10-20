@@ -68,6 +68,7 @@ def main():
     sunset = datetime.fromtimestamp(float(response.json()["sunset"]), TIME_ZONE)
 
     lamp_on_time = sunset + get_on_variation_from_range()
+    notification_time = lamp_on_time - FIVE_MINUTES
     lamp_off_time = (
         datetime.combine(current_date, LAMP_OFF_TIME, tzinfo=TIME_ZONE)
         + get_off_variation_from_range()
@@ -92,6 +93,7 @@ def main():
     check_time_script = "/home/lamptimer/setup_conditions.sh"
     cron_output = [
         f"{next_check_time.strftime(CRONTAB_FORMAT)} * {check_time_script}",
+        f"{notification_time.strftime(CRONTAB_FORMAT)} * /home/lamptimer/notifier.sh",
         f"{lamp_on_time.strftime(CRONTAB_FORMAT)} * /home/lamptimer/lamp_on.sh",
         f"{lamp_off_time.strftime(CRONTAB_FORMAT)} * /home/lamptimer/lamp_off.sh",
         "",

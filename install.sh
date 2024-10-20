@@ -32,6 +32,13 @@ function install-gpio {
   pip install rpi-lgpio
 }
 
+function install-aio {
+  python -m venv .venv3
+  # shellcheck disable=SC1091
+  source .venv3/bin/activate
+  pip install adafruit-io
+}
+
 function install-service {
   sudo mv init-lamptimer.service run-display.service display-control.service /lib/systemd/system
   sudo systemctl daemon-reload
@@ -59,6 +66,7 @@ update_os
 install-packages
 install-adafruit
 install-gpio
+install-aio
 install-service
 rm ".upgrade.tmp"
 sudo reboot
