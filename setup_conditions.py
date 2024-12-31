@@ -40,7 +40,7 @@ def get_seconds_from_now(dt: datetime) -> int:
 
 
 def get_on_variation_from_range() -> timedelta:
-    value = random.randrange(-FIVE_MINUTES.seconds, FIVE_MINUTES.seconds)
+    value = random.randrange(-FIVE_MINUTES.seconds, TEN_MINUTES.seconds)
     return timedelta(seconds=value)
 
 
