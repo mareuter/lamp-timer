@@ -1,6 +1,6 @@
 #!/bin/bash -x
 
-# SPDX-FileCopyrightText: 2024 Michael Reuter
+# SPDX-FileCopyrightText: 2024-2025 Michael Reuter
 #
 # SPDX-License-Identifier: MIT
 
@@ -47,9 +47,9 @@ function install-service {
   sudo systemctl enable display-control.service
 }
 
-function update_os {
+function update-os {
 	if [ ! -f ".upgrade.tmp" ]; then
-		sudo apt-get update
+		sudo apt update
 		sudo apt upgrade -y
 		touch ".upgrade.tmp"
 		sudo reboot
@@ -62,7 +62,7 @@ function update_os {
 ######################
 rm lamptimer.tar.gz
 fixup-settings
-update_os
+update-os
 install-packages
 install-adafruit
 install-gpio
