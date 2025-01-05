@@ -5,5 +5,5 @@
 # SPDX-License-Identifier: MIT
 
 cd /home/lamptimer
-source .env/bin/activate
+source .venv/bin/activate
 python -u run_display.py
