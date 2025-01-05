@@ -9,9 +9,7 @@ After=multi-user.target
 [Service]
 Type=oneshot
 ExecStart=/home/lamptimer/setup_conditions.sh
-KillMode=control-group
-Restart=on-failure
-TimeoutSec=infinity
+RemainAfterExit=true
 User=lamptimer
 Group=lamptimer
 
