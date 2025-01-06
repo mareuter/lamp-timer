@@ -25,7 +25,7 @@ class AioClient:
         dict[str, str]
             The parsed settings.
         """
-        settings_file = pathlib.Path("settings.toml")
+        settings_file = pathlib.Path(".settings.toml")
 
         with settings_file.open("rb") as cfile:
             cdict = tomllib.load(cfile)
