@@ -4,6 +4,7 @@
 
 [Unit]
 Description=Initialize Lamp Timer
+Requires=systemd-timesyncd.service network-online.target
 After=multi-user.target
 
 [Service]

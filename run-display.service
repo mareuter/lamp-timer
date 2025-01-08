@@ -4,6 +4,7 @@
 
 [Unit]
 Description=Lamp Timer Display
+Requires=init-lamptimer.service
 After=init-lamptimer.service
 
 [Service]

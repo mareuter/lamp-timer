@@ -4,6 +4,7 @@
 
 [Unit]
 Description=Handle Display Control
+Requires=run-display.service
 After=run-display.service
 
 [Service]
