@@ -5,7 +5,7 @@
 [Unit]
 Description=Initialize Lamp Timer
 Requires=systemd-timesyncd.service network-online.target
-After=multi-user.target
+After=network-online.target
 
 [Service]
 Type=oneshot
@@ -15,4 +15,4 @@ User=lamptimer
 Group=lamptimer
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=network-online.target
