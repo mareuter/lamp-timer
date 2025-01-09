@@ -47,6 +47,10 @@ function install-service {
   sudo systemctl enable display-control.service
 }
 
+function turn-off-wlan-power-save {
+  sudo iw wlan0 set power_save off
+}
+
 function update-os {
 	if [ ! -f ".upgrade.tmp" ]; then
 		sudo apt update
@@ -63,6 +67,7 @@ function update-os {
 rm lamptimer.tar.gz
 fixup-settings
 update-os
+turn-off-wlan-power-save
 install-packages
 install-adafruit
 install-gpio
