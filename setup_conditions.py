@@ -102,6 +102,7 @@ def main():
     crontab_file.write_text(os.linesep.join(cron_output))
 
     if lamp_off_time > get_current_time() > lamp_on_time:
+        print("Lamp should be on!")
         lamp_on_file = pathlib.Path("lamp_on")
         lamp_on_file.touch()
 
