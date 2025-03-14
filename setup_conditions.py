@@ -73,6 +73,7 @@ def main():
         datetime.combine(current_date, LAMP_OFF_TIME, tzinfo=TIME_ZONE)
         + get_off_variation_from_range()
     )
+    send_info_time = lamp_off_time + TEN_MINUTES
 
     output = {
         "date": current_date.timetuple(),
@@ -96,6 +97,7 @@ def main():
         f"{notification_time.strftime(CRONTAB_FORMAT)} * /home/lamptimer/notifier.sh",
         f"{lamp_on_time.strftime(CRONTAB_FORMAT)} * /home/lamptimer/lamp_on.sh",
         f"{lamp_off_time.strftime(CRONTAB_FORMAT)} * /home/lamptimer/lamp_off.sh",
+        f"{send_info_time.strftime(CRONTAB_FORMAT)} * /home/lamptimer/timer_info.sh",
         "",
     ]
     crontab_file = pathlib.Path("crontab.in")

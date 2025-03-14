@@ -21,3 +21,5 @@ settings.toml
 setup_conditions.py
 setup_conditions.sh
 timer_display.py
+timer_info.py
+timer_info.sh
