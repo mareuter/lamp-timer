@@ -1,0 +1,19 @@
+# SPDX-FileCopyrightText: 2024-2025 Michael Reuter
+#
+# SPDX-License-Identifier: MIT
+
+[Unit]
+Description=Handle Display Control
+After=run-display.service
+
+[Service]
+Type=simple
+ExecStart=/home/lamptimer/display_control.sh
+KillMode=control-group
+Restart=on-failure
+TimeoutSec=infinity
+User=lamptimer
+Group=lamptimer
+
+[Install]
+WantedBy=run-display.service

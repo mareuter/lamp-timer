@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2024 Michael Reuter
+# SPDX-FileCopyrightText: 2024-2025 Michael Reuter
 #
 # SPDX-License-Identifier: MIT
 
@@ -25,7 +25,7 @@ SUNSET_BMP = displayio.OnDiskBitmap("images/Sunset.bmp")
 DATE_BANNER_FORMAT = "%B %-d, %Y"
 USNO_TIME_FORMAT = "%H:%M"
 TIME_FORMAT = "%H:%M"
-DISPLAY_DELAY = 0.05
+DISPLAY_DELAY = 0.2
 FONT_Y_ANCHOR = 0.6825
 
 
@@ -42,6 +42,7 @@ class TimerDisplay:
         )
         self.display.root_group = None
         self.main_group = displayio.Group()
+        self._is_on = True
 
         # self._background()
         self._date_banner()
@@ -53,6 +54,10 @@ class TimerDisplay:
     @property
     def brightness(self) -> float:
         return self.display.brightness
+
+    @property
+    def is_on(self) -> bool:
+        return self._is_on
 
     def _background(self) -> None:
         bg = displayio.Bitmap(
@@ -122,9 +127,9 @@ class TimerDisplay:
 
     def set_sunrise_sunset(self, sunrise: datetime, sunset: datetime) -> None:
         self.main_group[2].text = self._usno_format(sunrise)
-        time.sleep(DISPLAY_DELAY)
+        time.sleep(DISPLAY_DELAY * 10)
         self.main_group[4].text = self._usno_format(sunset)
-        time.sleep(DISPLAY_DELAY)
+        time.sleep(DISPLAY_DELAY * 10)
 
     def set_lamp_on_off(self, lamp_on: datetime, lamp_off: datetime) -> None:
         self.main_group[6].text = lamp_on.strftime(TIME_FORMAT)
@@ -133,9 +138,11 @@ class TimerDisplay:
 
     def off(self) -> None:
         self.display.brightness = 0.0
+        self._is_on = False
 
     def on(self, brightness: float = 1.0) -> None:
         self.display.brightness = brightness
+        self._is_on = True
 
     def mount(self) -> None:
         self.display.root_group = self.main_group

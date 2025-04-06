@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2024 Michael Reuter
+# SPDX-FileCopyrightText: 2024-2025 Michael Reuter
 #
 # SPDX-License-Identifier: MIT
 
@@ -8,10 +8,10 @@ import tarfile
 
 
 def main() -> None:
-    tfile = pathlib.Path("lamptime.tar")
+    tfile = pathlib.Path("lamptimer.tar")
     manifest = pathlib.Path("manifest.txt")
     with tarfile.open(tfile, "w") as tar:
-        for ifile in manifest.read_text().split(os.linesep):
+        for ifile in manifest.read_text().strip().split(os.linesep):
             tar.add(ifile)
 
 

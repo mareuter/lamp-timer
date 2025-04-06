@@ -1,0 +1,18 @@
+# SPDX-FileCopyrightText: 2024-2025 Michael Reuter
+#
+# SPDX-License-Identifier: MIT
+
+[Unit]
+Description=Initialize Lamp Timer
+Requires=systemd-timesyncd.service network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/home/lamptimer/setup_conditions.sh
+RemainAfterExit=true
+User=lamptimer
+Group=lamptimer
+
+[Install]
+WantedBy=network-online.target
