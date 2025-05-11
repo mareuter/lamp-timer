@@ -43,10 +43,15 @@ function install-aio {
   pip install adafruit-io
 }
 
-function install-service {
-  sudo mv init-lamptimer.service run-display.service display-control.service /lib/systemd/system
+function install-lamptimer-service {
+  sudo mv init-lamptimer.service /lib/systemd/system
   sudo systemctl daemon-reload
   sudo systemctl enable init-lamptimer.service
+}
+
+function install-display-service {
+  sudo mv run-display.service display-control.service /lib/systemd/system
+  sudo systemctl daemon-reload
   sudo systemctl enable run-display.service
   sudo systemctl enable display-control.service
 }
@@ -76,6 +81,7 @@ install-packages
 install-adafruit
 install-gpio
 install-aio
-install-service
+install-lamptimer-service
+install-display-service
 cleanup
 sudo reboot
