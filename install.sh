@@ -4,6 +4,10 @@
 #
 # SPDX-License-Identifier: MIT
 
+function cleanup {
+  rm ".upgrade.tmp"
+}
+
 function fixup-settings {
   mv settings.toml .settings.toml
   chmod 600 .settings.toml
@@ -73,5 +77,5 @@ install-adafruit
 install-gpio
 install-aio
 install-service
-rm ".upgrade.tmp"
+cleanup
 sudo reboot
