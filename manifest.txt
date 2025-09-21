@@ -2,6 +2,7 @@ install.sh
 install-rtc.sh
 aio_client.py
 control_lamp.py
+fixup_hwclock_set.py
 init-lamptimer.service
 lamp_on.sh
 lamp_off.sh
