@@ -33,6 +33,12 @@ function install-lamptimer-service {
   sudo systemctl enable init-lamptimer.service
 }
 
+function install-mta {
+  sudo mv sendmail /usr/sbin
+  sudo mkdir /var/tmp/cron
+  sudo chmod 777 /var/tmp/cron
+}
+
 function turn-off-wlan-power-save {
   sudo iw wlan0 set power_save off
 }
@@ -54,6 +60,7 @@ rm lamptimer.tar.gz
 fixup-settings
 update-os
 turn-off-wlan-power-save
+install-mta
 install-gpio
 install-aio
 install-lamptimer-service

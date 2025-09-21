@@ -8,6 +8,7 @@ lamp_on.sh
 lamp_off.sh
 notifier.py
 notifier.sh
+sendmail
 settings.toml
 setup_conditions.py
 setup_conditions.sh
