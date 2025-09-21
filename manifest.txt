@@ -1,4 +1,5 @@
 install.sh
+install-rtc.sh
 aio_client.py
 control_lamp.py
 init-lamptimer.service
