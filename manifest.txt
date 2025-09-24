@@ -1,6 +1,7 @@
 install.sh
 install-rtc.sh
 aio_client.py
+clean-mta-logs
 control_lamp.py
 fixup_hwclock_set.py
 init-lamptimer.service

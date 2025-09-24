@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# SPDX-FileCopyrightText: 2025 Michael Reuter
+#
+# SPDX-License-Identifier: MIT
+
+set -e
+
+log_dir="/var/tmp/cron"
+if [ -d ${log_dir} ]; then
+  find ${log_dir} -type f -mtime +30 -exec rm {} \;
+fi

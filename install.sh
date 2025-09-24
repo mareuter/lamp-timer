@@ -37,6 +37,7 @@ function install-mta {
   sudo mv sendmail /usr/sbin
   sudo mkdir /var/tmp/cron
   sudo chmod 777 /var/tmp/cron
+  sudo mv clean-mta-logs /etc/cron.weekly
 }
 
 function turn-off-wlan-power-save {
