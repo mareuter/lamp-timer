@@ -23,9 +23,11 @@ function fixup_hwclock_set {
 
 function move_config {
   if [ ! -f ".mv_config.tmp" ]; then
+    sudo apt install i2c-tools
     sudo mv config.txt /boot/firmware
     touch .mv_config.tmp
     sudo halt
+    exit
   else
     sudo i2cdetect -y 1
   fi
