@@ -4,25 +4,13 @@
 #
 # SPDX-License-Identifier: MIT
 
+function cleanup {
+  rm ".upgrade.tmp"
+}
+
 function fixup-settings {
   mv settings.toml .settings.toml
   chmod 600 .settings.toml
-}
-
-function install-packages {
-  sudo apt install python3-dev
-}
-
-function install-adafruit {
-  python -m venv .venv
-  # shellcheck disable=SC1091
-  source .venv/bin/activate
-  pip install requests
-  pip install Adafruit-Blinka
-  pip install adafruit-blinka-displayio
-  pip install adafruit-circuitpython-bitmap-font
-  pip install adafruit-circuitpython-display-text
-  pip install adafruit-circuitpython-st7789
 }
 
 function install-gpio {
@@ -39,12 +27,17 @@ function install-aio {
   pip install adafruit-io
 }
 
-function install-service {
-  sudo mv init-lamptimer.service run-display.service display-control.service /lib/systemd/system
+function install-lamptimer-service {
+  sudo mv init-lamptimer.service /lib/systemd/system
   sudo systemctl daemon-reload
   sudo systemctl enable init-lamptimer.service
-  sudo systemctl enable run-display.service
-  sudo systemctl enable display-control.service
+}
+
+function install-mta {
+  sudo mv sendmail /usr/sbin
+  sudo mkdir /var/tmp/cron
+  sudo chmod 777 /var/tmp/cron
+  sudo mv clean-mta-logs /etc/cron.weekly
 }
 
 function turn-off-wlan-power-save {
@@ -68,10 +61,9 @@ rm lamptimer.tar.gz
 fixup-settings
 update-os
 turn-off-wlan-power-save
-install-packages
-install-adafruit
+install-mta
 install-gpio
 install-aio
-install-service
-rm ".upgrade.tmp"
+install-lamptimer-service
+cleanup
 sudo reboot

@@ -4,14 +4,15 @@
 
 # Hardware interfaces
 dtparam=spi=on
+dtparam=i2c_arm=on
 
-# Enable audio (loads snd_bcm2835)
 dtparam=audio=off
 dtoverlay=disable-bt
 
 # Additional overlays and parameters are documented
 # /boot/firmware/overlays/README
 dtoverlay=gpio-shutdown,gpio_pin=24
+dtoverlay=i2c-rtc,pcf8523
 
 # Automatically load overlays for detected cameras
 camera_auto_detect=0

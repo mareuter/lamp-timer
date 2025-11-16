@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# SPDX-FileCopyrightText: 2025 Michael Reuter
+#
+# SPDX-License-Identifier: MIT
+
+dt=$(date +"%Y%m%d")
+cat >>/var/tmp/cron/${dt}-result.log
